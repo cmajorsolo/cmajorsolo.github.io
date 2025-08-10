@@ -3,54 +3,66 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Huali Zhao · Portfolio</title>
+  <title>Huali Zhao · Product Builder</title>
+  <meta name="description" content="Portfolio of Huali Zhao — Product Builder, AI/ML innovator, and software engineer."/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="styles.css"/>
-  <meta name="description" content="Portfolio of Huali Zhao — Product builder, AI/ML innovator, and software engineer."/>
 </head>
 <body>
-  <header class="container">
-    <h1>Huali Zhao</h1>
-    <p class="tagline">Senior Software Engineer · Product Builder · AI/ML Innovator · PhD Researcher</p>
-    <nav>
-      <a href="#experience">Experience</a>
-      <a href="#projects">Projects</a>
-      <a href="#research">Research</a>
-      <a href="#contact">Contact</a>
-    </nav>
+  <header class="appbar surface">
+    <div class="appbar__row">
+      <div class="appbar__title">Huali Zhao</div>
+      <nav class="appbar__nav">
+        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#research">Research</a>
+        <button id="themeToggle" class="icon-btn" aria-label="Toggle theme"><span class="material-icons">dark_mode</span></button>
+      </nav>
+    </div>
   </header>
 
-  <main class="container">
-    <section id="about">
-      <h2>About</h2>
-      <p>
-        I build AI-native, cloud-first products end-to-end — from discovery to scalable delivery.
-        I care about measurable outcomes, crisp design, and shipping fast.
-      </p>
-    </section>
+  <section class="hero container">
+    <div class="hero__card surface elevation-2">
+      <img class="avatar" src="assets/avatar.jpg" alt="Profile picture of Huali Zhao" />
+      <div class="hero__content">
+        <h1>Product Builder · AI/ML Innovator</h1>
+        <p>I design and ship AI‑native, cloud‑first products end‑to‑end — from discovery to scalable delivery. I care about measurable outcomes, crisp UX, and shipping fast.</p>
+        <div class="chips">
+          <span class="chip">AI‑native</span>
+          <span class="chip">Kubernetes</span>
+          <span class="chip">Python</span>
+          <span class="chip">Camunda</span>
+          <span class="chip">Tableau/Grafana</span>
+        </div>
+        <div class="cta">
+          <a class="btn ripple" href="mailto:hualizhao@gmail.com">Contact</a>
+          <a class="btn btn--tonal ripple" href="#projects">See projects</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
+  <main class="container">
     <section id="experience">
-      <h2>Experience</h2>
-      <ul class="cards" id="experience-list"></ul>
+      <h2 class="section-title">Experience</h2>
+      <ul class="grid" id="experience-list"></ul>
     </section>
 
     <section id="projects">
-      <h2>Projects</h2>
-      <ul class="cards" id="projects-list"></ul>
+      <h2 class="section-title">Projects</h2>
+      <ul class="grid" id="projects-list"></ul>
     </section>
 
     <section id="research">
-      <h2>Research</h2>
-      <ul class="cards" id="research-list"></ul>
-    </section>
-
-    <section id="contact">
-      <h2>Contact</h2>
-      <p><a href="mailto:hualizhao@gmail.com">hualizhao@gmail.com</a> · Dublin, Ireland</p>
+      <h2 class="section-title">Research</h2>
+      <ul class="grid" id="research-list"></ul>
     </section>
   </main>
 
-  <footer class="container">
-    <p>© <span id="year"></span> Huali Zhao</p>
+  <footer class="footer surface">
+    <div class="container">
+      <p>© <span id="year"></span> Huali Zhao · Dublin, Ireland · <a href="mailto:hualizhao@gmail.com">hualizhao@gmail.com</a></p>
+    </div>
   </footer>
 
   <script src="script.js"></script>

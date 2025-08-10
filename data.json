@@ -1,0 +1,70 @@
+{
+  "experience": [
+    {
+      "title": "Software Consultant \u2014 Bank of America",
+      "subtitle": "2019\u20132025 \u00b7 Dublin",
+      "description": "Led AI model management dashboards, Camunda/Kubernetes automation, and real\u2011time log analytics (Grafana). Shipped autonomously end\u2011to\u2011end without daily PM oversight.",
+      "tags": [
+        "AI\u2011native",
+        "Kubernetes",
+        "Camunda",
+        "Python",
+        "Grafana"
+      ]
+    },
+    {
+      "title": "Software Engineer \u2014 Lam Research",
+      "subtitle": "2017\u20132019 \u00b7 Dublin",
+      "description": "Implemented CI/CD (Jenkins, Bash) and owned AngularJS front\u2011end for Hadoop\u2011based configuration tools.",
+      "tags": [
+        "Jenkins",
+        "AngularJS",
+        "Hadoop"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "title": "SME Year\u2011End Financial Statements",
+      "subtitle": "Independent Product",
+      "description": "Python tool that generates year\u2011end financial statements for SMEs; built with Cursor and NotebookLM to automate reconciliation and improve accuracy.",
+      "tags": [
+        "Python",
+        "Cursor",
+        "NotebookLM"
+      ]
+    },
+    {
+      "title": "AI\u2011assisted Reconciliation for SMEs",
+      "subtitle": "Independent Product",
+      "description": "Automates data matching and reporting; reduces manual reconciliation time.",
+      "tags": [
+        "Automation",
+        "Fintech",
+        "AI"
+      ]
+    }
+  ],
+  "research": [
+    {
+      "title": "Transformer\u2011based ADA Price Forecasting",
+      "subtitle": "PhD \u00b7 Paper under review",
+      "description": "Designed Transformer models that outperform SOTA on short\u2011term ADA forecasting.",
+      "tags": [
+        "Transformers",
+        "Time Series",
+        "PyTorch"
+      ]
+    },
+    {
+      "title": "Sentiment\u2011guided RAG for Forecasting",
+      "subtitle": "PhD Study",
+      "description": "Comparative evaluation of sentiment\u2011guided RAG on financial prediction accuracy.",
+      "tags": [
+        "RAG",
+        "VADER",
+        "SageMaker"
+      ]
+    }
+  ]
+}

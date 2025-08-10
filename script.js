@@ -39,7 +39,6 @@ async function load(){
 
   document.getElementById('year').textContent = new Date().getFullYear();
 }
-
 function card(item){
   const li = document.createElement('li');
   li.className = 'card surface elevation-1';
@@ -52,5 +51,4 @@ function card(item){
   `;
   return li;
 }
-
 load();

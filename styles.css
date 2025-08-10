@@ -40,18 +40,19 @@ body{
 
 .appbar{position:sticky;top:0;z-index:20;backdrop-filter: blur(8px)}
 .appbar__row{display:flex;align-items:center;justify-content:space-between;padding:10px 20px}
-.appbar__title{font-weight:800;letter-spacing:.2px}
-.appbar__nav a{margin-right:16px;color:var(--text);opacity:.9}
+.appbar__nav a{margin-right:20px;color:var(--text);opacity:.95;font-weight:700;font-size:1.05rem;letter-spacing:.2px}
 .appbar__nav a:hover{opacity:1}
-.icon-btn{background:transparent;border:none;color:var(--text);cursor:pointer;font-size:0;display:inline-flex;align-items:center;justify-content:center;padding:8px;border-radius:10px}
-.icon-btn .material-icons{font-size:22px}
+.icon-btn{background:transparent;border:none;color:var(--text);cursor:pointer;font-size:0;display:inline-flex;align-items:center;justify-content:center;padding:10px;border-radius:10px}
+.icon-btn .material-icons{font-size:24px}
 
 .hero{padding:34px 20px}
-.hero__card{display:flex;gap:24px;align-items:center;border-radius:18px;padding:20px}
-.avatar{width:112px;height:112px;border-radius:50%;object-fit:cover;border:2px solid var(--outline)}
-.hero__content h1{margin:.25rem 0;font-size:1.6rem}
-.hero__content p{margin:0 0 .75rem 0;color:var(--muted)}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin:.5rem 0 1rem}
+.hero__card{display:grid;grid-template-columns:180px 1fr;gap:24px;align-items:start;border-radius:18px;padding:20px}
+.profile-stack{display:flex;flex-direction:column;align-items:flex-start}
+.avatar{width:160px;height:160px;border-radius:14px;object-fit:cover;border:2px solid var(--outline)}
+.name-large{margin:.6rem 0 0;font-size:2rem;font-weight:800;letter-spacing:.2px}
+
+.hero__content .about-text p{margin:.4rem 0;color:var(--muted);font-size:1rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:.75rem 0 1rem}
 .chip{background:var(--chip);border:1px solid var(--outline);padding:.25rem .6rem;border-radius:999px;color:var(--text);font-size:.85rem}
 .cta .btn{margin-right:10px}
 

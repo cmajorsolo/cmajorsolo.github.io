@@ -1,80 +1,814 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Huali Zhao · Product Builder</title>
-  <meta name="description" content="Portfolio of Huali Zhao — Product Builder, AI/ML innovator, and software engineer."/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css"/>
+  <title>How ChatGPT Understands Me · 这不是简历</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="An AI-generated portrait of me based on long-term conversations with ChatGPT. Not a CV. 基于与 ChatGPT 的长期对话生成的个人画像，并非正式简历。" />
+
+  <!-- Google 字体（可选） -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #050816;
+      --bg-alt: #0b1020;
+      --card-bg: rgba(15, 23, 42, 0.9);
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.18);
+      --accent-2: #a855f7;
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --border-subtle: rgba(148, 163, 184, 0.3);
+      --radius-xl: 1.6rem;
+      --shadow-soft: 0 24px 50px rgba(15, 23, 42, 0.8);
+      --shadow-small: 0 12px 30px rgba(15, 23, 42, 0.7);
+      --transition-fast: 180ms ease-out;
+      --max-width: 1040px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "DM Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1e293b 0, #020617 45%, #000 100%);
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      padding: 32px 16px 48px;
+    }
+
+    .noise {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      opacity: 0.09;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1600 900' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='noStitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+      z-index: -1;
+      mix-blend-mode: soft-light;
+    }
+
+    .page {
+      width: 100%;
+      max-width: var(--max-width);
+      background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.08), transparent 55%),
+                  radial-gradient(circle at bottom right, rgba(236, 72, 153, 0.06), transparent 55%),
+                  linear-gradient(145deg, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.98));
+      border-radius: 2rem;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      box-shadow: var(--shadow-soft);
+      padding: 28px 24px 32px;
+      backdrop-filter: blur(24px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 900px) {
+      .page {
+        padding: 32px 40px 40px;
+      }
+    }
+
+    .page::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.08), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(168, 85, 247, 0.12), transparent 65%);
+      opacity: 0.9;
+      z-index: -2;
+    }
+
+    .glass-ring {
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      border-radius: 999px;
+      border: 1px dashed rgba(148, 163, 184, 0.35);
+      top: -140px;
+      right: -120px;
+      opacity: 0.35;
+    }
+
+    .header {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (min-width: 900px) {
+      .header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 26px;
+      }
+    }
+
+    .title-block {
+      max-width: 650px;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+      align-items: center;
+    }
+
+    .pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.12), transparent 60%);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: linear-gradient(to bottom right, var(--accent), var(--accent-2));
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.8);
+    }
+
+    .title-main {
+      font-size: clamp(24px, 4vw, 32px);
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
+
+    .title-main span {
+      background: linear-gradient(120deg, #38bdf8, #a855f7, #f97316);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .title-sub {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .title-sub strong {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .title-sub .em {
+      color: #e5e7eb;
+    }
+
+    .meta-block {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .meta-card {
+      border-radius: 1.1rem;
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      padding: 8px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      background: rgba(15, 23, 42, 0.9);
+      max-width: 260px;
+    }
+
+    .meta-label {
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 11px;
+      color: rgba(148, 163, 184, 0.9);
+    }
+
+    .meta-tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 2px;
+    }
+
+    .meta-tag {
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      background: rgba(15, 23, 42, 0.95);
+      font-size: 11px;
+      color: var(--text-main);
+    }
+
+    /* Profile strip */
+    .profile-strip {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar-circle {
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #38bdf8, #1d4ed8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
+      color: #e5e7eb;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.9);
+    }
+
+    .profile-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .profile-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #e5e7eb;
+    }
+
+    .profile-role {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 860px) {
+      .layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .column {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-subtle);
+      padding: 16px 16px 18px;
+      box-shadow: var(--shadow-small);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.08), transparent 60%);
+      opacity: 0;
+      transition: opacity var(--transition-fast);
+      pointer-events: none;
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(209, 213, 219, 0.95);
+    }
+
+    .card-tag {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: var(--accent);
+    }
+
+    .card-body {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .card-body p + p {
+      margin-top: 8px;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .chip {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      background: rgba(15, 23, 42, 0.9);
+      color: rgba(226, 232, 240, 0.95);
+    }
+
+    .chip.ghost {
+      border-style: dashed;
+      color: rgba(148, 163, 184, 0.95);
+    }
+
+    .accent-box {
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.2), rgba(15, 23, 42, 0.98));
+      border-radius: 1.4rem;
+      border: 1px solid rgba(56, 189, 248, 0.6);
+      padding: 14px 16px;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.85);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .accent-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #f9fafb;
+    }
+
+    .accent-text {
+      font-size: 12px;
+      color: rgba(226, 232, 240, 0.96);
+      line-height: 1.7;
+    }
+
+    .accent-text span {
+      color: #a5b4fc;
+    }
+
+    .grid-two {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 10px;
+    }
+
+    @media (max-width: 640px) {
+      .grid-two {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 6px;
+      font-size: 12px;
+    }
+
+    .list li {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    .list-bullet {
+      margin-top: 4px;
+      width: 4px;
+      height: 4px;
+      border-radius: 999px;
+      background: var(--accent);
+      flex-shrink: 0;
+      box-shadow: 0 0 8px rgba(56, 189, 248, 0.9);
+    }
+
+    .list-text {
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .footer {
+      margin-top: 24px;
+      padding-top: 14px;
+      border-top: 1px dashed rgba(148, 163, 184, 0.45);
+      font-size: 11px;
+      color: rgba(148, 163, 184, 0.9);
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .footer span.highlight {
+      color: var(--accent);
+    }
+
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px dashed transparent;
+      transition: border-color 120ms ease-out;
+    }
+
+    .footer a:hover {
+      border-color: rgba(56, 189, 248, 0.7);
+    }
+
+    .back-to-top {
+      cursor: pointer;
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .back-to-top::before {
+      content: "↑";
+      font-size: 10px;
+    }
+
+    /* 语言切换按钮 */
+    .lang-toggle {
+      position: absolute;
+      top: 18px;
+      right: 22px;
+      display: inline-flex;
+      gap: 4px;
+      background: rgba(15, 23, 42, 0.92);
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      padding: 3px;
+      box-shadow: 0 14px 32px rgba(15, 23, 42, 0.8);
+      z-index: 10;
+    }
+
+    .lang-btn {
+      border: none;
+      outline: none;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: transparent;
+      color: rgba(209, 213, 219, 0.9);
+      cursor: pointer;
+      transition: background var(--transition-fast), color var(--transition-fast);
+    }
+
+    .lang-btn.active {
+      background: linear-gradient(120deg, rgba(56, 189, 248, 0.15), rgba(168, 85, 247, 0.18));
+      color: #e5e7eb;
+    }
+
+    /* 语言显示控制 */
+    .lang-en,
+    .lang-zh {
+      /* 默认都显示 */
+    }
+
+    body.lang-en-only .lang-zh {
+      display: none !important;
+    }
+
+    body.lang-zh-only .lang-en {
+      display: none !important;
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f9fafb;
+        --bg-alt: #e5e7eb;
+        --card-bg: #ffffff;
+        --text-main: #020617;
+        --text-muted: #4b5563;
+        --border-subtle: rgba(148, 163, 184, 0.55);
+      }
+      body {
+        background: radial-gradient(circle at top, #e5e7eb 0, #f9fafb 40%, #e5e7eb 100%);
+      }
+      .page {
+        background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.06), transparent 55%),
+                    radial-gradient(circle at bottom right, rgba(236, 72, 153, 0.06), transparent 55%),
+                    #f9fafb;
+      }
+      .meta-card,
+      .chip,
+      .card,
+      .accent-box {
+        background: #ffffff;
+      }
+      .lang-toggle {
+        background: #ffffff;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header class="appbar surface">
-    <div class="appbar__row">
-      <div class="appbar__brand">
-        <!-- Left kept minimal per request; avatar + name moved into hero -->
+<div class="noise"></div>
+<div class="page" id="top">
+  <div class="glass-ring"></div>
+
+  <!-- 语言切换 -->
+  <div class="lang-toggle">
+    <button class="lang-btn active" data-lang-mode="mixed">EN / 中</button>
+    <button class="lang-btn" data-lang-mode="en">EN</button>
+    <button class="lang-btn" data-lang-mode="zh">中</button>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="title-block">
+      <div class="badge-row">
+        <div class="pill-badge">
+          <div class="pill-dot"></div>
+          <span>AI-Generated Portrait · ChatGPT</span>
+        </div>
       </div>
-      <nav class="appbar__nav">
-        <a href="#experience">Experience</a>
-        <a href="#projects">Projects</a>
-        <a href="#research">Research</a>
-        <button id="themeToggle" class="icon-btn" aria-label="Toggle theme"><span class="material-icons">dark_mode</span></button>
-      </nav>
+      <h1 class="title-main">
+        How ChatGPT Understands Me <span>· 这不是简历</span>
+      </h1>
+      <p class="title-sub">
+        <span class="lang-en">This page is an <strong>AI-generated description</strong> of who I am, based on long-term conversations with ChatGPT.</span>
+        <br />
+        <span class="lang-zh em">它只是 ChatGPT 眼中的“我”，不是正式简历，也不是权威定论。</span>
+      </p>
+
+      <!-- 个人抬头：把 Your Name / YN 换成你自己 -->
+      <div class="profile-strip">
+        <div class="avatar-circle">HZ</div>
+        <div class="profile-text">
+          <div class="profile-name">Huali Zhao</div>
+          <div class="profile-role">
+            PhD in AI / Time-Series Forecasting · Crypto Markets · Towards Quant / ML Engineering
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="meta-block">
+      <div class="meta-card">
+        <span class="meta-label">Context</span>
+        <div class="meta-tag-row">
+          <span class="meta-tag">PhD · Crypto Forecasting</span>
+          <span class="meta-tag">Transformers & Multi-Scale Patching</span>
+          <span class="meta-tag">RAG for Time Series</span>
+        </div>
+      </div>
+      <div class="meta-card">
+        <span class="meta-label">Note</span>
+        <span>Generated collaboratively by me &amp; ChatGPT — updated as I grow.</span>
+      </div>
     </div>
   </header>
 
-  <section class="hero container">
-    <div class="hero__card surface elevation-2">
-      <div class="profile-stack">
-        <img class="avatar" src="assets/avatar.jpg" alt="Profile picture of Huali Zhao" />
-        <h1 class="name-large">Huali Zhao</h1>
-      </div>
-      <div class="hero__content">
-        <div class="about-text">
-          <p>Innovative software engineer with 14 years of experience delivering high-impact, customer-facing solutions across fintech, manufacturing, and public sector.</p>
-          <p>Proven ability to lead end-to-end product initiatives - from ideation to scalable production systems.</p>
-          <p>Proven track record in spearheading cross-functional teams to align engineering and product strategy with organisational goals, delivering high-impact results.</p>
-          <p>Recognized for AI-native development and championing modern engineering practices.</p>
-          <p>Demonstrated success in partnering with product and design teams to achieve outstanding outcomes, thriving in ambiguous situations with autonomy.</p>
+  <!-- Main Layout -->
+  <main class="layout">
+    <!-- Left Column -->
+    <section class="column">
+      <article class="card">
+        <div class="card-header">
+          <h2 class="card-title">Personality · 性格特质</h2>
+          <span class="card-tag">Not a CV</span>
         </div>
-        <div class="chips">
-          <span class="chip">AI‑native</span>
-          <span class="chip">Kubernetes</span>
-          <span class="chip">Python</span>
-          <span class="chip">Camunda</span>
-          <span class="chip">Tableau/Grafana</span>
+        <div class="card-body">
+          <p class="lang-en"><strong>EN ·</strong> Highly disciplined, detail-oriented, and intellectually curious. I enjoy breaking down complex problems into clear structures and iterating until the result feels “right”.</p>
+          <p class="lang-zh"><strong>中 ·</strong> 自律、细致、好奇心强。喜欢把复杂问题拆成清晰的结构，一点点打磨到自己认可的水准。</p>
+          <ul class="list">
+            <li>
+              <span class="list-bullet"></span>
+              <div class="list-text lang-en">Long-term focus on ambitious goals (PhD, research, career planning).</div>
+            </li>
+            <li>
+              <span class="list-bullet"></span>
+              <div class="list-text lang-en">Comfortable with “deep work”: reading papers, refining experiments, shaping ideas.</div>
+            </li>
+            <li>
+              <span class="list-bullet"></span>
+              <div class="list-text lang-en">Values clarity, structure, and honest evaluation over shortcuts.</div>
+            </li>
+            <li>
+              <span class="list-bullet"></span>
+              <div class="list-text lang-zh">在追求结果之前，更在意“做对、讲清楚、站得住脚”。</div>
+            </li>
+          </ul>
         </div>
-        <div class="cta">
-          <a class="btn ripple" href="mailto:hualizhao@gmail.com">Contact</a>
-          <a class="btn btn--tonal ripple" href="#projects">See projects</a>
-        </div>
-      </div>
-    </div>
-  </section>
+      </article>
 
-  <main class="container">
-    <section id="experience">
-      <h2 class="section-title">Experience</h2>
-      <ul class="grid" id="experience-list"></ul>
+      <article class="card">
+        <div class="card-header">
+          <h2 class="card-title">Researcher Profile · 学术者画像</h2>
+          <span class="card-tag">Research Engineer</span>
+        </div>
+        <div class="card-body">
+          <p class="lang-en"><strong>Focus (EN):</strong> Transformer-based time series forecasting for cryptocurrency markets, including multi-scale patching, channel-independent vs channel-dependent architectures, and retrieval-augmented forecasting with contextual information.</p>
+          <p class="lang-zh"><strong>研究主线（中）：</strong> 围绕高波动、多资产、存在结构性变化的加密货币市场，系统比较和改造各类 Transformer 结构（如 PatchTST、iTransformer、TimeXer 等），并探索多尺度 patching、CI/CD 设计以及 RAG 式上下文对预测性能和稳健性的影响。</p>
+          <div class="chip-row">
+            <span class="chip">Transformers for TSF</span>
+            <span class="chip">PatchTST · iTransformer · TimeXer · MSPFormer</span>
+            <span class="chip">Multi-Scale Patching</span>
+            <span class="chip">Channel-Independent vs CD</span>
+            <span class="chip">Retrieval-Augmented Forecasting</span>
+            <span class="chip ghost">Regime Switching · Volatility · Interdependence</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-header">
+          <h2 class="card-title">Professional Skills · 职业能力</h2>
+          <span class="card-tag">Quant / ML-Oriented</span>
+        </div>
+        <div class="card-body">
+          <div class="grid-two">
+            <div>
+              <h3 class="accent-title" style="font-size:12px;margin-bottom:4px;">Tech Stack</h3>
+              <ul class="list">
+                <li>
+                  <span class="list-bullet"></span>
+                  <div class="list-text">Python, PyTorch, NumPy, Git, Linux, VSCode, Colab.</div>
+                </li>
+                <li>
+                  <span class="list-bullet"></span>
+                  <div class="list-text">Designing, training, and evaluating deep models for multi-asset crypto forecasting.</div>
+                </li>
+                <li>
+                  <span class="list-bullet"></span>
+                  <div class="list-text">Building data pipelines, RAG-style retrieval layers, and experiment frameworks.</div>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="accent-title" style="font-size:12px;margin-bottom:4px;">Towards Quant Dev</h3>
+              <ul class="list">
+                <li>
+                  <span class="list-bullet"></span>
+                  <div class="list-text">Algorithmic thinking &amp; model implementation for financial data.</div>
+                </li>
+                <li>
+                  <span class="list-bullet"></span>
+                  <div class="list-text">Backtesting mindset &amp; attention to robustness, not just one-off results.</div>
+                </li>
+                <li>
+                  <span class="list-bullet"></span>
+                  <div class="list-text">Clear technical communication in English and Chinese.</div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
     </section>
 
-    <section id="projects">
-      <h2 class="section-title">Projects</h2>
-      <ul class="grid" id="projects-list"></ul>
-    </section>
+    <!-- Right Column -->
+    <section class="column">
+      <div class="accent-box">
+        <h2 class="accent-title">What is this page?</h2>
+        <p class="accent-text">
+          <span class="lang-en">This is <span>not</span> a CV and not an official biography. It’s a snapshot of how ChatGPT currently “sees” me, reconstructed from many conversations about my PhD, experiments, code, and plans for the future.</span>
+          <br /><br />
+          <span class="lang-zh">这里更像是一面 AI 提供的“镜子”，帮我看看：在长时间的对话里，我呈现出了一个怎样的自己。</span>
+        </p>
+      </div>
 
-    <section id="research">
-      <h2 class="section-title">Research</h2>
-      <ul class="grid" id="research-list"></ul>
+      <article class="card">
+        <div class="card-header">
+          <h2 class="card-title">How I Tend to Work · 我是怎样做事的</h2>
+          <span class="card-tag">Process</span>
+        </div>
+        <div class="card-body">
+          <ul class="list">
+            <li>
+              <span class="list-bullet"></span>
+              <div class="list-text lang-en"><strong>Structured exploration:</strong> define research questions, design experiments step by step, and keep the evaluation consistent.</div>
+            </li>
+            <li>
+              <span class="list-bullet"></span>
+              <div class="list-text lang-en"><strong>Iterative refinement:</strong> refine writing, figures, and architecture design until the story is clear and defensible.</div>
+            </li>
+            <li>
+              <span class="list-bullet"></span>
+              <div class="list-text lang-en"><strong>Bridging research &amp; engineering:</strong> read the papers, study the code, then adapt models to real crypto data and constraints.</div>
+            </li>
+            <li>
+              <span class="list-bullet"></span>
+              <div class="list-text lang-zh">在“能跑起来”和“讲得清楚”之间，尽量做到两头都不放弃。</div>
+            </li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-header">
+          <h2 class="card-title">Where I Seem To Be Heading · 可能的下一步</h2>
+          <span class="card-tag">Future</span>
+        </div>
+        <div class="card-body">
+          <p class="lang-en">From ChatGPT’s perspective, my trajectory looks like:</p>
+          <ul class="list">
+            <li>
+              <span class="list-bullet"></span>
+              <div class="list-text lang-en">Complete a rigorous PhD that explores both the limits and potential of transformer-based crypto forecasting.</div>
+            </li>
+            <li>
+              <span class="list-bullet"></span>
+              <div class="list-text lang-en">Transition into roles around quantitative development, ML engineering, or research engineering in finance/AI.</div>
+            </li>
+            <li>
+              <span class="list-bullet"></span>
+              <div class="list-text lang-en">Keep combining theory, implementation, and careful experimentation as a core working style.</div>
+            </li>
+          </ul>
+          <p style="margin-top:10px;font-size:12px;color:var(--text-muted);" class="lang-zh">
+            最终路怎么走，当然不是 ChatGPT 决定的，而是我自己一步一步做出来的。
+          </p>
+        </div>
+      </article>
     </section>
   </main>
 
-  <footer class="footer surface">
-    <div class="container">
-      <p>© <span id="year"></span> Huali Zhao · Dublin, Ireland · <a href="mailto:hualizhao@gmail.com">hualizhao@gmail.com</a></p>
+  <!-- Footer -->
+  <footer class="footer">
+    <div>
+      <span class="highlight">Disclaimer:</span> This page is generated using ChatGPT and reflects an AI’s interpretation of my patterns over time.
+    </div>
+    <div>
+      <span class="back-to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">
+        Back to top
+      </span>
+      <!-- 你可以把下面这个链接改成你的 GitHub / LinkedIn / 主页 -->
+      <!-- <a href="https://github.com/your-name" target="_blank" rel="noreferrer">GitHub</a> -->
     </div>
   </footer>
+</div>
 
-  <script src="script.js"></script>
+<script>
+  (function () {
+    const buttons = document.querySelectorAll(".lang-btn");
+    const body = document.body;
+
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const mode = btn.getAttribute("data-lang-mode");
+
+        body.classList.remove("lang-en-only", "lang-zh-only");
+
+        if (mode === "en") {
+          body.classList.add("lang-en-only");
+        } else if (mode === "zh") {
+          body.classList.add("lang-zh-only");
+        }
+        // mixed 模式下不加 class，两个语言都显示
+
+        buttons.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+      });
+    });
+  })();
+</script>
 </body>
 </html>
